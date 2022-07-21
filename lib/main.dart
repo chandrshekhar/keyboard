@@ -24,10 +24,13 @@ class _MyHomePageState extends State<MyHomePage> {
  final TextEditingController _controller = TextEditingController();
   List inputTextRow1 = ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"];
   List inputNumberRow1 = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
+  List inputSpCharRow1 = [];
   List inputTextRow2 = ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'];
-  List inputNumberRow2 = ['@', '#', '_', '&', '-', '+', '(', ')', '/'];
+  List inputNumberRow2 = ['\u{20B9}','@', '#', '_', '&', '-', '+', '(',')', '/'];
+ List inputSpCharRow2 = [];
   List inputTextRow3 = ['','z', 'x', 'c', 'v', 'b', 'n', 'm',''];
   List inputNumberRow3 = ['','*', '"', "'", ':', ';', '!', '?', '',];
+ List inputSpCharRow3 = [];
  // String insertedText = "";
   late bool isCaps;
   late bool isSpecialChar;
@@ -104,7 +107,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.all(2.0),
+        padding: const EdgeInsets.all(3.0),
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
@@ -160,7 +163,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 },
                                 child: TextWidget(
                                     height: MediaQuery.of(context).size.height * 0.07,
-                                    width: MediaQuery.of(context).size.width * 0.097,
+                                    width: MediaQuery.of(context).size.width * 0.095,
                                     text: isSpecialChar
                                         ? inputNumberRow1[index]
                                         : isCaps
@@ -173,49 +176,51 @@ class _MyHomePageState extends State<MyHomePage> {
                     SizedBox(
                         height: MediaQuery.of(context).size.height * 0.07,
                         width: MediaQuery.of(context).size.width,
-                        child: Padding(
-                            padding: const EdgeInsets.only(left: 6, right: 4),
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: ListView.builder(
-                                physics: const NeverScrollableScrollPhysics(),
-                                scrollDirection: Axis.horizontal,
-                                shrinkWrap: true,
-                                itemCount: isSpecialChar
-                                    ? inputNumberRow2.length
-                                    : inputTextRow2.length,
-                                itemBuilder: (context, index) {
-                                  return InkWell(
-                                    onTap: () {
-                                      setState(() {
-                                        isSpecialChar
-                                            ? _insertText(inputNumberRow2[index])
-                                            : isCaps
-                                            ? _insertText(inputTextRow2[index]
-                                            .toUpperCase())
-                                            : _insertText(inputTextRow2[index]);
-                                      });
-                                    },
-                                    child: TextWidget(
-                                        height: MediaQuery.of(context).size.height * 0.07,
-                                        width: MediaQuery.of(context).size.width * 0.097,
-
-                                        text: isSpecialChar
-                                            ? inputNumberRow2[index]
-                                            : isCaps
-                                                ? inputTextRow2[index]
-                                                    .toUpperCase()
-                                                : inputTextRow2[index]),
-                                  );
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            scrollDirection: Axis.horizontal,
+                            shrinkWrap: true,
+                            itemCount: isSpecialChar
+                                ? inputNumberRow2.length
+                                : inputTextRow2.length,
+                            itemBuilder: (context, index) {
+                              return InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    isSpecialChar
+                                        ? _insertText(inputNumberRow2[index])
+                                        : isCaps
+                                        ? _insertText(inputTextRow2[index]
+                                        .toUpperCase())
+                                        : _insertText(inputTextRow2[index]);
+                                  });
                                 },
-                              ),
-                            ))),
+                                child: TextWidget(
+
+                                    height: MediaQuery.of(context).size.height * 0.07,
+                                    width: MediaQuery.of(context).size.width * 0.095,
+
+
+
+                                    text: isSpecialChar
+                                        ? inputNumberRow2[index]
+                                        : isCaps
+                                            ? inputTextRow2[index]
+                                                .toUpperCase()
+                                            : inputTextRow2[index]),
+                              );
+                            },
+                          ),
+                        )),
                     SizedBox(
                         height: MediaQuery.of(context).size.height * 0.07,
                         width: MediaQuery.of(context).size.width,
                         child: Align(
                           alignment: Alignment.center,
                           child: ListView.builder(
+                            physics:const NeverScrollableScrollPhysics(),
                             scrollDirection: Axis.horizontal,
                             shrinkWrap: true,
                             itemCount: isSpecialChar
@@ -225,7 +230,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               if (index == 0) {
                                 return Container(
                                   height: MediaQuery.of(context).size.height * 0.07,
-                                  width: MediaQuery.of(context).size.width * 0.15,
+                                  width: MediaQuery.of(context).size.width * 0.14,
                                   margin: const EdgeInsets.only(right: 2),
                                   decoration: BoxDecoration(
                                       color: Colors.black,
@@ -237,12 +242,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                           isCaps = !isCaps;
                                         });
                                       },
-                                      icon: const Icon(Icons.arrow_upward,color:Colors.white)),
+                                      icon: isSpecialChar? const Icon(Icons.menu,color: Colors.white,):const Icon(Icons.arrow_upward,color:Colors.white)),
                                 );
                               } else if (index == inputTextRow3.length-1)  {
                                 return Container(
                                   height: MediaQuery.of(context).size.height * 0.07,
-                                  width: MediaQuery.of(context).size.width * 0.15,
+                                  width: MediaQuery.of(context).size.width * 0.14,
                                   margin: const EdgeInsets.only(left: 2),
                                   decoration: BoxDecoration(
                                       color: Colors.black,
@@ -276,7 +281,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   },
                                   child: TextWidget(
                                       height: MediaQuery.of(context).size.height * 0.07,
-                                      width: MediaQuery.of(context).size.width * 0.097,
+                                      width: MediaQuery.of(context).size.width * 0.095,
 
                                       text: isSpecialChar
                                           ? inputNumberRow3[index]
@@ -302,8 +307,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       },
                       child:  TextWidget(
                           height: MediaQuery.of(context).size.height * 0.07,
-                          width: MediaQuery.of(context).size.width * 0.15,
-                          text: '123?')),
+                          width: MediaQuery.of(context).size.width * 0.14,
+                          text:!isSpecialChar?'123?':'abc')),
                    Expanded(
                       child: InkWell(
                          onTap: (){
@@ -311,17 +316,19 @@ class _MyHomePageState extends State<MyHomePage> {
                            _insertText(" ");
                           });
                          },
-                          child: TextWidget(height: MediaQuery.of(context).size.height * 0.07, width: 140, text: " "))),
+                          child: TextWidget(height: MediaQuery.of(context).size.height * 0.07, width: MediaQuery.of(context).size.width * 0.2, text: " "))),
+
+                  const SizedBox(width: 2,),
                   Container(
                       height: MediaQuery.of(context).size.height * 0.07,
-                      width: MediaQuery.of(context).size.width * 0.15,
+                      width: MediaQuery.of(context).size.width * 0.14,
 
                       decoration: BoxDecoration(
                           color: Colors.black,
                           borderRadius: BorderRadius.circular(8)
                       ),
                       child: IconButton(
-                          onPressed: () {}, icon:const Icon(Icons.search,color: Colors.white,)))
+                          onPressed: () {}, icon:const Icon(Icons.keyboard_return,color: Colors.white,)))
                 ],
               ),
             ],
